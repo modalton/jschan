@@ -13,21 +13,20 @@ module.exports = exports = {
       ),
       (error, results, fields) => {
         if (error) throw error;
-        res.send(results[0]);
+        res.send(results);
       }
     );
   },
 
   getThreadsByBoard: (req, res) => {
-    let { acronym } = req.body;
     sql.query(
       sqlstring.format(
-        `select * from threads where board_id = (select id from boards where acronym = '');`,
-        [acronym]
+        `select title,post,picture_url from threads where board_id = (select id from boards where acronym = ?);`,
+        [req.params.board]
       ),
       (error, results, fields) => {
         if (error) throw error;
-        res.send(results[0]);
+        res.send(results);
       }
     );
   },
@@ -38,7 +37,7 @@ module.exports = exports = {
       sqlstring.format(`delete from boards where thread_id = ?;`, [thread_id]),
       (error, results, fields) => {
         if (error) throw error;
-        res.send(results[0]);
+        res.send(results);
       }
     );
   }

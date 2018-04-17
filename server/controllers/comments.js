@@ -11,7 +11,7 @@ module.exports = exports = {
       ),
       (error, results, fields) => {
         if (error) throw error;
-        res.send(results[0]);
+        res.send(results);
       }
     );
   },
@@ -24,7 +24,7 @@ module.exports = exports = {
       ]),
       (error, results, fields) => {
         if (error) throw error;
-        res.send(results[0]);
+        res.send(results);
       }
     );
   },
@@ -35,7 +35,7 @@ module.exports = exports = {
       sqlstring.format(`delete from comments where id = ?;`, [comment_id]),
       (error, results, fields) => {
         if (error) throw error;
-        res.send(results[0]);
+        res.send(results);
       }
     );
   }

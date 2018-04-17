@@ -11,7 +11,7 @@ module.exports = exports = {
       ]),
       (error, results, fields) => {
         if (error) throw error;
-        res.send(results[0]);
+        res.send(results);
       }
     );
   },
@@ -19,7 +19,7 @@ module.exports = exports = {
   getBoards: (req, res) => {
     sql.query(`select acronym,title from boards;`, (error, results, fields) => {
       if (error) throw error;
-      res.send(results[0]);
+      res.send(results);
     });
   },
 
@@ -29,7 +29,7 @@ module.exports = exports = {
       sqlstring.format(`delete from boards where acronym = ?;`, [acronym]),
       (error, results, fields) => {
         if (error) throw error;
-        res.send(results[0]);
+        res.send(results);
       }
     );
   },
@@ -43,7 +43,7 @@ module.exports = exports = {
       ]),
       (error, results, fields) => {
         if (error) throw error;
-        res.send(results[0]);
+        res.send(results);
       }
     );
   },
@@ -57,7 +57,7 @@ module.exports = exports = {
       ]),
       (error, results, fields) => {
         if (error) throw error;
-        res.send(results[0]);
+        res.send(results);
       }
     );
   }

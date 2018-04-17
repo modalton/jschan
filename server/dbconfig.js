@@ -1,5 +1,5 @@
 //Load our .env file. Fatal error if this doesn't work
-const result = dotenv.config();
+const result = require("dotenv").config();
 const mysql = require("mysql");
 
 if (result.error) {
