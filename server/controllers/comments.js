@@ -1,27 +1,20 @@
 const sql = require("../dbconfig");
 const sqlstring = require("sqlstring");
 
+// basic comment insert
 module.exports = exports = {
   createComment: (req, res) => {
-    let { thread_id, post, picture_url } = req.body;
+    let { body, picture_url } = req.body;
+    let { thread_id } = req.params;
     sql.query(
       sqlstring.format(
-        `insert into comments(thread_id,post,picture_url) values(?,?,?);`,
-        [thread_id, post, picture_url]
+        `START TRANSACTION;
+        insert into posts(is_thread) values (false);
+        insert into comments(thread_id,post_id,body,picture_url,ip,id_token) 
+	values (?, (SELECT post_id from posts order by post_id desc limit 1),?,?,?,substring(md5(concat(?,?)),1,7));
+        commit;`,
+        [thread_id, body, picture_url,req.ip,thread_id,req.ip]
       ),
-      (error, results, fields) => {
-        if (error) throw error;
-        res.send(results);
-      }
-    );
-  },
-
-  getThreadComments: (req, res) => {
-    let { thread_id } = req.body;
-    sql.query(
-      sqlstring.format(`select * from comments where thread_id = ?;`, [
-        thread_id
-      ]),
       (error, results, fields) => {
         if (error) throw error;
         res.send(results);
