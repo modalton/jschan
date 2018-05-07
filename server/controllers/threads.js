@@ -1,15 +1,28 @@
 const sql = require("../dbconfig");
 const sqlstring = require("sqlstring");
 
+//sample transaction
+
+//get thread union
+ 
 module.exports = exports = {
   //Some queries have subqueries so that you can use board name instead of id.
   //For ease of use but if it affects speed can change
   createThread: (req, res) => {
-    let { acronym, title, post, picture_url } = req.body;
+    let { title, body, picture_url } = req.body;
+    let  acronym  = req.params.board;
     sql.query(
       sqlstring.format(
-        `insert into threads(board_id,title,post,picture_url) select id ,?,?,? from boards where acronym = ?;`,
-        [title, post, picture_url, acronym]
+        `START TRANSACTION;
+        insert into posts(is_thread) values (true);
+        insert into threads(board_id,post_id,title,body,picture_url,ip) 
+ 	values (
+                (SELECT board_id from boards where acronym = ?), 
+                (SELECT post_id from posts order by post_id desc limit 1),
+                ?,?,?,?);
+		update threads set id_token = substring(md5(concat(thread_id,ip)),1,7) order by thread_id desc limit 1;
+        commit;`,
+        [acronym, title, body, picture_url,req.ip]
       ),
       (error, results, fields) => {
         if (error) throw error;
@@ -19,10 +32,11 @@ module.exports = exports = {
   },
 
   getThreadsByBoard: (req, res) => {
+    let  acronym = req.params.board;
     sql.query(
       sqlstring.format(
-        `select title,post,picture_url from threads where board_id = (select id from boards where acronym = ?);`,
-        [req.params.board]
+        `select post_id,title,id_token,body,picture_url from threads where board_id = (select board_id from boards where acronym = ?);`,
+        [acronym]
       ),
       (error, results, fields) => {
         if (error) throw error;
@@ -31,6 +45,25 @@ module.exports = exports = {
     );
   },
 
+  //may want to reformat this to take postId of thread so we dont expose underlying thread id?
+  getEntireThread: (req,res) => {
+    let { thread_id } = req.params;
+    sql.query(
+      sqlstring.format(
+        `SELECT post_id, title,id_token,name,body,options,picture_url FROM threads WHERE thread_id = ?
+        UNION
+        SELECT post_id, null,id_token,name,body,options,picture_url FROM comments WHERE thread_id = ?;`,
+        [thread_id,thread_id]
+      ),
+      (error,results,fields) => {
+        if (error) throw error;
+        res.send(results);
+      }
+    );
+  },
+
+  //Need to do with transaction!!
+  //FIX ME SENPAI
   deleteThread: (req, res) => {
     let { thread_id } = req.body;
     sql.query(

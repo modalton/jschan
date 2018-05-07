@@ -1,11 +1,12 @@
-//Integration tests for the average anonymous user
 const app = require("../../server/index.js");
 const request = require("supertest")(app);
 
-describe("GET /boards", () => {
+
+describe("POST comment/:thread_id", () => {
   it("respond with json", (done) => {
     request
-      .get("/boards")
+      .post("/comment/9")
+      .send({ body:"Comment body", picture_url:"http://not.com"})
       .set("Accept", "application/json")
       .expect("Content-Type", /json/)
       .expect(200, done);
