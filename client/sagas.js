@@ -1,15 +1,10 @@
-import {fork} from 'redux-saga/effects';
+import {takeLatest} from 'redux-saga/effects';
 
-//import saga here
-import {mySaga} from "./containers/home/homeSaga.js";
+//import all sagas here
+import homeSaga from "./containers/home/homeSaga.js";
 import myBoardSaga from "./containers/board/boardSaga.js";
 
-
-function startSagas(...sagas) {
-  return function* rootSaga() {
-    yield sagas.map(saga => fork(saga))
-  }
+export default function* allSagas() {
+  yield takeLatest("CATALOG_FETCH_REQUESTED", myBoardSaga);
+  yield takeLatest("BOARD_FETCH_REQUESTED", homeSaga);
 }
-
-// add you imported saga to the function
-export default startSagas(mySaga, myBoardSaga)

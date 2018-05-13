@@ -3,12 +3,12 @@ import { connect } from 'react-redux';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
 const mapStateToProps = store => {
-  return {catalog:store.catalog}
+  console.log(store)
+  return {catalog:store.boardCatalogReducer.catalog}
 };
 
 const mapDispatchToProps = dispatch => ({
-  // create functions that will dispatch action creators
-  temp: (e)=> {console.log('dispatching');dispatch({type: 'BOARD_CATALOG_FETCH_REQUESTED', payload: 'b'})}
+  fetchCatalogThreads: (board)=> dispatch({type: 'CATALOG_FETCH_REQUESTED', payload: board})
 });
 
 class BoardCatalog extends Component{
@@ -18,7 +18,7 @@ class BoardCatalog extends Component{
   }
 
   componentDidMount(){
-    this.props.temp('hi');
+    this.props.fetchCatalogThreads('b');
   }
   
   render(){
@@ -26,6 +26,7 @@ class BoardCatalog extends Component{
       <div>
         <h2>Boardacious</h2>
         <Link to="/">Goto home</Link>
+        {this.props.catalog && this.props.catalog.map(thread => (<div>Thread:</div>))}
       </div>
     );
   }

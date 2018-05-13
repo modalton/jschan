@@ -1,10 +1,9 @@
 
-function boardCatalogReducer(state = {boards:[]}, action){
+function boardCatalogReducer(state = {catalog:[]}, action){
   switch (action.type) {
-  case 'BOARD_CATALOG_FETCH_SUCCEEDED':
+  case 'CATALOG_FETCH_SUCCEEDED':
     let catalog = action.payload;
-    console.log("catalog = ", catalog);
-    return Object.assign(state,{catalog});
+    return Object.assign({},state,{catalog});
   default:
     return state;
   }

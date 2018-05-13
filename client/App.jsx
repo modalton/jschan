@@ -18,9 +18,9 @@ import BoardCatalog from "./containers/board/board.jsx";
 import homeReducer from "./containers/home/homeReducer.js";
 import boardCatalogReducer from "./containers/board/boardCatalogReducer.js";
 //import saga
-import {mySaga} from "./containers/home/homeSaga.js";
-import {myBoardSaga} from "./containers/board/boardSaga.js";
-//import sagas from "./sagas.js";
+// import {mySaga} from "./containers/home/homeSaga.js";
+// import {myBoardSaga} from "./containers/board/boardSaga.js";
+import sagas from "./sagas.js";
 //  browser history
 const history = createHistory();
 
@@ -34,15 +34,17 @@ const sagaMiddleware = createSagaMiddleware();
 // Also apply our middleware for navigating
 const store = createStore(
   combineReducers({
-    //    ...reducers,
     homeReducer,
+    boardCatalogReducer,
     router: routerReducer
   }),
   applyMiddleware(middleware),
-  applyMiddleware(sagaMiddleware)
+  applyMiddleware(sagaMiddleware),
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 )
 
-sagaMiddleware.run(myBoardSaga,mySaga);
+sagaMiddleware.run(sagas);
+
 //sagaMiddleware.run(myBoardSaga);
 
 
