@@ -30,9 +30,9 @@ app.get("/boards", boardController.getBoards);
 
 app.get("/:board/catalog", threadController.getThreadsByBoard);
 
-app.get("/thread/:thread_id",threadController.getEntireThread);
+app.get("/thread/:thread_post_id",threadController.getEntireThread);
 
-app.post("/comment/:thread_id", boardConfig, commentController.createComment);
+app.post("/comment/:thread_post_id", boardConfig, commentController.createComment);
 app.post("/:board/createThread", boardConfig, threadController.createThread);
 
 

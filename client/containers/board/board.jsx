@@ -26,7 +26,7 @@ class BoardCatalog extends Component{
       <div>
         <h2>Boardacious</h2>
         <Link to="/">Goto home</Link>
-        {this.props.catalog && this.props.catalog.map(thread => (<div>Thread:</div>))}
+        { this.props.catalog.map(thread => (<Link to={`/thread/${thread.post_id}`}>Go To {thread.post_id}</Link>))}
       </div>
     );
   }

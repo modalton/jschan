@@ -45,15 +45,14 @@ module.exports = exports = {
     );
   },
 
-  //may want to reformat this to take postId of thread so we dont expose underlying thread id?
   getEntireThread: (req,res) => {
-    let { thread_id } = req.params;
+    let { thread_post_id } = req.params;
     sql.query(
       sqlstring.format(
-        `SELECT post_id, title,id_token,name,body,options,picture_url FROM threads WHERE thread_id = ?
+        `SELECT post_id, title,id_token,name,body,options,picture_url FROM threads WHERE post_id = ?
         UNION
-        SELECT post_id, null,id_token,name,body,options,picture_url FROM comments WHERE thread_id = ?;`,
-        [thread_id,thread_id]
+        SELECT post_id, null,id_token,name,body,options,picture_url FROM comments WHERE thread_post_id = ?;`,
+        [thread_post_id,thread_post_id]
       ),
       (error,results,fields) => {
         if (error) throw error;
@@ -62,7 +61,7 @@ module.exports = exports = {
     );
   },
 
-  //Need to do with transaction!!
+  //Need to do with transaction!! <-- think this should be handled by key constraint on post delete. dbl check and update
   //FIX ME SENPAI
   deleteThread: (req, res) => {
     let { thread_id } = req.body;

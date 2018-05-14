@@ -13,14 +13,17 @@ import createSagaMiddleware from 'redux-saga';
 
 import Home from "./containers/home/home.jsx";
 import BoardCatalog from "./containers/board/board.jsx";
+import Thread from "./containers/thread/thread.jsx";
 
-//import reducers from './reducers';
+
+//import reducers 
 import homeReducer from "./containers/home/homeReducer.js";
 import boardCatalogReducer from "./containers/board/boardCatalogReducer.js";
-//import saga
-// import {mySaga} from "./containers/home/homeSaga.js";
-// import {myBoardSaga} from "./containers/board/boardSaga.js";
+import threadReducer from "./containers/thread/threadReducer.js";
+
+//import sagas
 import sagas from "./sagas.js";
+
 //  browser history
 const history = createHistory();
 
@@ -36,6 +39,7 @@ const store = createStore(
   combineReducers({
     homeReducer,
     boardCatalogReducer,
+    threadReducer,
     router: routerReducer
   }),
   applyMiddleware(middleware),
@@ -45,8 +49,6 @@ const store = createStore(
 
 sagaMiddleware.run(sagas);
 
-//sagaMiddleware.run(myBoardSaga);
-
 
 const App = () => (
   <Provider store={store}>
@@ -55,6 +57,7 @@ const App = () => (
       <div>
         <Route exact path="/" component={Home}/>
         <Route path="/board" component={BoardCatalog}/>
+        <Route path="/thread/:thread_id" component={Thread}/>
       </div>
     </ConnectedRouter>
   </Provider>

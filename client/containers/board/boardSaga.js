@@ -1,12 +1,12 @@
-import { call, put, takeEvery, takeLatest } from 'redux-saga/effects'
+import { call, put, takeEvery, takeLatest } from 'redux-saga/effects';
 
 function fetchCatalog(board){
   return new Promise((resolve,reject)=>{
     window.fetch(`http://localhost:4000/${board}/catalog`)
       .then(res => res.json())
       .then(data => resolve(data))
-      .catch(err => reject(err))
-  })
+      .catch(err => reject(err));
+  });
 }
 
 
