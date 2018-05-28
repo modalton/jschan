@@ -23,9 +23,10 @@ class Home extends Component{
   render(){
     return (
       <div>
-        <h2>Homeogenous</h2>
-        <Link to="/board">Goto board</Link>
-        {this.props.boards.map(board => (<div>Board: /{board.acronym}{'\n'}</div>))}
+        <h2>Home</h2>
+        <Link to="/login">Goto Login<br/></Link>
+        <Link to="/bans">Goto Bans<br/></Link>
+        {this.props.boards.map(board => (<Link to={`/board/${board.acronym}`}>{board.title}<br/></Link>))}
       </div>
     );
   }

@@ -5,6 +5,9 @@ function threadReducer(state = {posts:[]}, action){
     let posts = action.payload;
     console.log("posts = ", posts);
     return Object.assign({},state,{posts});
+  case 'REPORT_POST_SUCCEEDED':
+    console.log('payload',action.payload);
+    return Object.assign({},state)
   default:
     return state;
   }

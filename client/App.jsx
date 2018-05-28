@@ -14,15 +14,21 @@ import createSagaMiddleware from 'redux-saga';
 import Home from "./containers/home/home.jsx";
 import BoardCatalog from "./containers/board/board.jsx";
 import Thread from "./containers/thread/thread.jsx";
-
+import BanPage from "./containers/mod/mod.jsx";
+import LoginPage from "./containers/login/login.jsx";
 
 //import reducers 
 import homeReducer from "./containers/home/homeReducer.js";
 import boardCatalogReducer from "./containers/board/boardCatalogReducer.js";
 import threadReducer from "./containers/thread/threadReducer.js";
+import loginReducer from "./containers/login/loginReducer.js";
+import banReducer from "./containers/mod/modReducer.js";
 
 //import sagas
 import sagas from "./sagas.js";
+
+//import private route
+import PrivateRoute from "./auth/privateRoute.jsx";
 
 //  browser history
 const history = createHistory();
@@ -40,6 +46,8 @@ const store = createStore(
     homeReducer,
     boardCatalogReducer,
     threadReducer,
+    loginReducer,
+    banReducer,
     router: routerReducer
   }),
   applyMiddleware(middleware),
@@ -56,8 +64,10 @@ const App = () => (
     <ConnectedRouter history={history}>
       <div>
         <Route exact path="/" component={Home}/>
-        <Route path="/board" component={BoardCatalog}/>
+        <Route path="/board/:board_id" component={BoardCatalog}/>
         <Route path="/thread/:thread_id" component={Thread}/>
+        <Route path="/login" component={LoginPage}/>
+        <PrivateRoute path="/bans"  component={BanPage}/>
       </div>
     </ConnectedRouter>
   </Provider>
