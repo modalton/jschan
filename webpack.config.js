@@ -13,7 +13,7 @@ const config = {
   module: {
     rules: [
       {
-        test: /(\.css|.scss)$/,
+        test: /(\.css)$/,
         use: [
           {
             loader: "style-loader" // creates style nodes from JS strings
@@ -30,7 +30,7 @@ const config = {
             loader: "babel-loader",
             options: {
               cacheDirectory: true,
-              presets: ["react", "es2015"] // Transpiles JSX and ES6
+              presets: ["react", "es2015", "stage-1"] // Transpiles JSX and ES6
             }
           }
         ]

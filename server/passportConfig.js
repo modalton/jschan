@@ -11,6 +11,10 @@ passport.use('mods',new LocalStrategy(
         `select mods_id,username,salt_password_hash from mods where username = ?;`,[username]
       ),(error,results,fields)=>{
         if(error) throw error;
+
+        //Test for valid user
+        if(results.length === 0) return done(null,false,{message:'Not a user'});
+        
         //using bcrypt to determine if our users hash matches the provided password
         bcrypt.compare(password, results[0].salt_password_hash, function(err, valid) {
           if(err) { return done(err) }

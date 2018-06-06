@@ -3,12 +3,11 @@ import { connect } from 'react-redux';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
 const mapStateToProps = store => {
-  return {boards:store.boards}
+  return {boards:store.homeReducer.boards};
 };
 
 const mapDispatchToProps = dispatch => ({
-  // create functions that will dispatch action creators
-  temp: (e)=> {dispatch({type: 'BOARD_FETCH_REQUESTED', payload: 'muh payloadus'})}
+  fetchBoards: ()=> dispatch({type: 'BOARD_FETCH_REQUESTED', payload: null})
 });
 
 class Home extends Component{
@@ -18,14 +17,16 @@ class Home extends Component{
   }
 
   componentDidMount(){
-    this.props.temp('hi');
+    this.props.fetchBoards();
   }
   
   render(){
     return (
       <div>
-        <h2>Homeogenous</h2>
-        <Link to="/board">Goto board</Link>
+        <h2>Home</h2>
+        <Link to="/login">Goto Login<br/></Link>
+        <Link to="/bans">Goto Bans<br/></Link>
+        {this.props.boards.map(board => (<Link to={`/board/${board.acronym}`}>{board.title}<br/></Link>))}
       </div>
     );
   }

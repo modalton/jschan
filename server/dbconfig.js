@@ -21,4 +21,11 @@ connection.connect(function(err) {
   }
 });
 
+
+//Close connection when we shut down. Possible to add one for abort or is sigint still called? 
+
+//Just binding to sigint here seems to stall the exiting so we have to call it manually
+//From brief search seems like a windows problem. retry on linux and update
+process.on('SIGINT', ()=>{connection.end(); process.exit()}); 
+
 module.exports = exports = connection;
