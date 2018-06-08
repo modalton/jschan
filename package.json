@@ -4,8 +4,9 @@
   "description": "Fullstack JS replacement for vichan",
   "main": "server/index.js",
   "scripts": {
-    "start": "nodemon src/server/index.js",
-    "webpack": "./node_modules/.bin/webpack -w --mode development",
+    "start": "./node_modules/.bin/nodemon ./server/index.js",
+    "build-dev": "./node_modules/.bin/webpack -w --mode development",
+    "build": "./node_modules/.bin/webpack",
     "test": ""
   },
   "repository": {
@@ -52,7 +53,9 @@
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-1": "^6.24.1",
     "css-loader": "^0.28.11",
+    "file-loader": "^1.1.11",
     "mocha": "^5.1.0",
+    "nodemon": "^1.17.5",
     "style-loader": "^0.20.3",
     "supertest": "^3.0.0",
     "webpack": "^4.5.0",

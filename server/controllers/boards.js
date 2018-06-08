@@ -1,17 +1,17 @@
 const sql = require("../dbconfig");
 const sqlstring = require("sqlstring");
-const typeCheck = require('type-check').typeCheck;
+const typeCheck = require("type-check").typeCheck;
 
 module.exports = exports = {
   createBoard: (req, res) => {
     let { acronym, title } = req.body;
 
-    let validInputFlag = typeCheck('[String]',[acronym, title]);
-    if(!validInputFlag){
+    let validInputFlag = typeCheck("[String]", [acronym, title]);
+    if (!validInputFlag) {
       res.status(400);
-      return res.send(new Error('Invalid Input'));
+      return res.send(new Error("Invalid Input"));
     }
-    
+
     sql.query(
       sqlstring.format(`insert into boards(acronym,title) values(?,?);`, [
         acronym,
@@ -34,12 +34,12 @@ module.exports = exports = {
   deleteBoard: (req, res) => {
     let { acronym } = req.body;
 
-    let validInputFlag = typeCheck('String',acronym);
-    if(!validInputFlag){
+    let validInputFlag = typeCheck("String", acronym);
+    if (!validInputFlag) {
       res.status(400);
-      return res.send(new Error('Invalid Input'))
+      return res.send(new Error("Invalid Input"));
     }
-    
+
     sql.query(
       sqlstring.format(`delete from boards where acronym = ?;`, [acronym]),
       (error, results, fields) => {
@@ -52,12 +52,12 @@ module.exports = exports = {
   updateBoardName: (req, res) => {
     let { acronym, new_acronym } = req.body;
 
-    let validInputFlag = typeCheck('[String]',[acronym,new_acronym]);
-    if(!validInputFlag){
+    let validInputFlag = typeCheck("[String]", [acronym, new_acronym]);
+    if (!validInputFlag) {
       res.status(400);
-      return res.send(new Error('Invalid Input'));
+      return res.send(new Error("Invalid Input"));
     }
-    
+
     sql.query(
       sqlstring.format(`update boards set acronym = ? where acronym = ?;`, [
         new_acronym,
@@ -73,12 +73,12 @@ module.exports = exports = {
   updateBoardTitle: (req, res) => {
     let { acronym, new_title } = req.body;
 
-    let validInputFlag = typeCheck('[String]',acronym, new_title);
-    if(!validInputFlag){
+    let validInputFlag = typeCheck("[String]", acronym, new_title);
+    if (!validInputFlag) {
       res.status(400);
-      return res.send(new Error('Invalid Input'));
+      return res.send(new Error("Invalid Input"));
     }
-    
+
     sql.query(
       sqlstring.format(`update boards set title = ? where acronym = ?;`, [
         new_title,

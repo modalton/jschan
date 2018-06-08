@@ -1,12 +1,18 @@
-import {takeLatest} from 'redux-saga/effects';
+import { takeLatest } from "redux-saga/effects";
 
 //import all sagas here
 import homeSaga from "./containers/home/homeSaga.js";
 import myBoardSaga from "./containers/board/boardSaga.js";
-import {fetchThreadWorker,reportPostWorker} from "./containers/thread/threadSaga.js";
+import {
+  fetchThreadWorker,
+  reportPostWorker
+} from "./containers/thread/threadSaga.js";
 import loginSaga from "./containers/login/loginSaga.js";
 import modSaga from "./containers/mod/modSaga.js";
-import {newCommentWorker,newThreadWorker} from "./containers/create/createSaga.js";
+import {
+  newCommentWorker,
+  newThreadWorker
+} from "./containers/create/createSaga.js";
 
 export default function* allSagas() {
   yield takeLatest("CATALOG_FETCH_REQUESTED", myBoardSaga);
@@ -15,6 +21,6 @@ export default function* allSagas() {
   yield takeLatest("REPORT_POST_REQUESTED", reportPostWorker);
   yield takeLatest("LOGIN_REQUESTED", loginSaga);
   yield takeLatest("BANS_REQUESTED", modSaga);
-  yield takeLatest("NEW_THREAD_REQUESTED",newThreadWorker);
-  yield takeLatest("NEW_COMMENT_REQUESTED",newCommentWorker);
+  yield takeLatest("NEW_THREAD_REQUESTED", newThreadWorker);
+  yield takeLatest("NEW_COMMENT_REQUESTED", newCommentWorker);
 }

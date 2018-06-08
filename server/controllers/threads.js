@@ -1,25 +1,23 @@
 const sql = require("../dbconfig");
 const sqlstring = require("sqlstring");
-const typeCheck = require('type-check').typeCheck;
-const {test,lengths} = require('../utils/lengths.js');
+const typeCheck = require("type-check").typeCheck;
+const { test, lengths } = require("../utils/lengths.js");
 
- 
 module.exports = exports = {
   //Some queries have subqueries so that you can use board name instead of id.
   //For ease of use but if it affects speed can change
   createThread: (req, res) => {
     let { title, body } = req.body;
-    let acronym  = req.params.board;
+    let acronym = req.params.board;
     let picture_url = req.file ? req.file.filename : null;
 
+    // let validInputFlag = typeCheck('[Maybe String]',[acronym, title, body, picture_url]);
+    // let validLengthsFlag = (test(lengths.TEST,body) && test(lengths.TINY_TEXT,picture_url) && test(lengths.TINY_TEXT,title));
+    // if(!validInputFlag || validLengthsFlag){
+    //   res.status(400);
+    //   return res.send(new Error('Invalid Input'));
+    // }
 
-    let validInputFlag = typeCheck('[Maybe String]',[acronym, title, body, picture_url]);
-    let validLengthsFlag = (test(lengths.TEST,body) && test(lengths.TINY_TEXT,picture_url) && test(lengths.TINY_TEXT,title));
-    if(!validInputFlag || validLengthsFlag){
-      res.status(400);
-      return res.send(new Error('Invalid Input'));
-    }
-    
     sql.query(
       sqlstring.format(
         `START TRANSACTION;
@@ -31,7 +29,7 @@ module.exports = exports = {
                 ?,?,?,?);
 		update threads set id_token = substring(md5(concat(thread_id,ip)),1,7) order by thread_id desc limit 1;
         commit;`,
-        [acronym, title, body, picture_url,req.ip]
+        [acronym, title, body, picture_url, req.ip]
       ),
       (error, results, fields) => {
         if (error) throw error;
@@ -41,15 +39,15 @@ module.exports = exports = {
   },
 
   getThreadsByBoard: (req, res) => {
-    let  acronym = req.params.board;
+    let acronym = req.params.board;
 
     //probably just redirect on bad GETs?
-    let validInputFlag = typeCheck('String',acronym);
-    if(!validInputFlag){
+    let validInputFlag = typeCheck("String", acronym);
+    if (!validInputFlag) {
       res.status(400);
-      return res.send(new Error('Invalid Input'));
+      return res.send(new Error("Invalid Input"));
     }
-    
+
     sql.query(
       sqlstring.format(
         `select post_id,title,id_token,body,picture_url,
@@ -65,23 +63,23 @@ module.exports = exports = {
     );
   },
 
-  getEntireThread: (req,res) => {
+  getEntireThread: (req, res) => {
     let { thread_post_id } = req.params;
 
-    let validInputFlag = typeCheck(' String',thread_post_id);
-    if(!validInputFlag){
+    let validInputFlag = typeCheck(" String", thread_post_id);
+    if (!validInputFlag) {
       res.status(400);
-      return res.send(new Error('Invalid Input'));
+      return res.send(new Error("Invalid Input"));
     }
-    
+
     sql.query(
       sqlstring.format(
         `SELECT post_id, title,id_token,name,body,options,picture_url FROM threads WHERE post_id = ?
         UNION
         SELECT post_id, null,id_token,name,body,options,picture_url FROM comments WHERE thread_post_id = ?;`,
-        [thread_post_id,thread_post_id]
+        [thread_post_id, thread_post_id]
       ),
-      (error,results,fields) => {
+      (error, results, fields) => {
         if (error) throw error;
         res.send(results);
       }
