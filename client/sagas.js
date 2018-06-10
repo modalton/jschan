@@ -2,7 +2,7 @@ import { takeLatest } from "redux-saga/effects";
 
 //import all sagas here
 import homeSaga from "./containers/home/homeSaga.js";
-import myBoardSaga from "./containers/board/boardSaga.js";
+import myBoardSaga from "./containers/catalog/CatalogSaga.js";
 import {
   fetchThreadWorker,
   reportPostWorker

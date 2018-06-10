@@ -7,7 +7,7 @@ import React from "react";
 //   </div>
 // ))}
 
-const Post = ({
+const ThreadPost = ({
   is_thread,
   name,
   id,
@@ -19,10 +19,10 @@ const Post = ({
   actions
 }) => (
   <div className="post-container">
-    <div class="side-arrows"> >> </div>
-    <div id={post_num} className="reply">
+    <div id={post_num} className="replyFirstPost">
       <div className="postHeader">
         <input type="checkbox" />
+        {title}
         <span className="name">{name ? name : "Anonymous"}</span> ID:({id}){" "}
         {new Date(timestamp).toDateString()} No.{post_num}
       </div>
@@ -30,7 +30,9 @@ const Post = ({
         File:<a href={`/${picture_url}`}>{picture_url}</a> (777 KB, 1100 x 720)
       </div>
 
-      {picture_url && <img className="thumbnail" src={`/${picture_url}`} />}
+      {picture_url && (
+        <img className="firstThumbnail" src={`/${picture_url}`} />
+      )}
       <div className="replyText">
         {title}
         {body}
@@ -39,4 +41,4 @@ const Post = ({
   </div>
 );
 
-export default Post;
+export default ThreadPost;

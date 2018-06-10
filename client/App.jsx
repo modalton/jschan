@@ -20,10 +20,11 @@ import createSagaMiddleware from "redux-saga";
 import "./styles.css";
 
 import Home from "./containers/home/home.jsx";
-import BoardCatalog from "./containers/board/board.jsx";
+import Catalog from "./containers/catalog/catalog.jsx";
 import Thread from "./containers/thread/thread.jsx";
 import BanPage from "./containers/mod/mod.jsx";
 import LoginPage from "./containers/login/login.jsx";
+import Page from "./containers/page/page.jsx";
 
 //import reducers
 import reducers from "./reducers.js";
@@ -60,7 +61,7 @@ const App = () => (
     <ConnectedRouter history={history}>
       <div>
         <Route exact path="/" component={Home} />
-        <Route path="/board/:board_id" component={BoardCatalog} />
+        <Route path="/board/:board_id" component={Page} />
         <Route path="/thread/:thread_id" component={Thread} />
         <Route path="/login" component={LoginPage} />
         <PrivateRoute path="/bans" component={BanPage} />

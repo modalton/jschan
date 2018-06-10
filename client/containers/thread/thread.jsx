@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import Post from "../../components/post.jsx";
+import ThreadPost from "../../components/threadPost.jsx";
 import CreateBoard from "../create/create.jsx";
 
 const mapStateToProps = store => {
@@ -30,29 +31,57 @@ class Thread extends Component {
     return (
       <div>
         <h2>Thread</h2>
-        {this.props.posts.map((post, i) => (
-          <Post
-            key={i}
-            is_thread={i === 0 ? true : false}
-            name={post.name}
-            post_num={post.post_id}
-            id={post.id_token}
-            timestamp={Date.now()}
-            title={post.title}
-            body={post.body}
-            picture_url={post.picture_url}
-            actions={[
-              {
-                name: "Report",
-                func: this.props.reportPost.bind(
-                  this,
-                  post.post_id,
-                  "RULE_VIOLATION"
-                )
-              }
-            ]}
-          />
-        ))}
+        {this.props.posts.map((post, i) => {
+          if (i === 0) {
+            return (
+              <ThreadPost
+                key={i}
+                is_thread={i === 0 ? true : false}
+                name={post.name}
+                post_num={post.post_id}
+                id={post.id_token}
+                timestamp={Date.now()}
+                title={post.title}
+                body={post.body}
+                picture_url={post.picture_url}
+                actions={[
+                  {
+                    name: "Report",
+                    func: this.props.reportPost.bind(
+                      this,
+                      post.post_id,
+                      "RULE_VIOLATION"
+                    )
+                  }
+                ]}
+              />
+            );
+          } else {
+            return (
+              <Post
+                key={i}
+                is_thread={i === 0 ? true : false}
+                name={post.name}
+                post_num={post.post_id}
+                id={post.id_token}
+                timestamp={Date.now()}
+                title={post.title}
+                body={post.body}
+                picture_url={post.picture_url}
+                actions={[
+                  {
+                    name: "Report",
+                    func: this.props.reportPost.bind(
+                      this,
+                      post.post_id,
+                      "RULE_VIOLATION"
+                    )
+                  }
+                ]}
+              />
+            );
+          }
+        })}
         <CreateBoard
           type="thread"
           context={this.props.match.params.thread_id}

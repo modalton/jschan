@@ -8,13 +8,30 @@
 body {
     font: 12px/1.231 arial,helvetica,clean,sans-serif;
     background: #ffe;
+    color:maroon;
 }
 
 h2, h3{
     margin:0px;
 }
 
+hr{
+        border: 0;
+    border-top: 1px solid #d9bfb7
+}
 
+
+/* Board Bar */
+.boardsBar{
+    font-size: 9pt;
+    color: #b86;
+    display: block;
+}
+
+.boardsBar a{
+    color:maroon;
+    padding:1px;
+}
 
 
 /* Post related */
@@ -29,11 +46,30 @@ h2, h3{
     overflow: hidden;           /*unclear if we need this*/
 }
 
+.replyFirstPost{
+    border-left: 0;
+    border-top: 0;
+    display: table;
+    padding: 2px;
+    margin: 4px 0;
+    overflow: hidden;
+}
+
 
 .thumbnail{
     float: left;
     max-width:125px;
     max-height:125px;
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-top: 3px;
+    margin-bottom: 5px;
+}
+
+.firstThumbnail{
+    float: left;
+    max-width:250px;
+    max-height:250px;
     margin-left: 20px;
     margin-right: 20px;
     margin-top: 3px;
@@ -151,5 +187,28 @@ src:url("../build/scoobydoo.otf") format("opentype");
 }
 
 
+/* Page Related  */
+.boardTitle{
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -2px;
+}
 
+.newThreadLink{
+    font-size: 22px;
+    font-weight: 700;
+}
 
+.pageElems{
+    text-align:center;
+}
+
+.boardAnnouncements{
+    width:475px;
+    height:80px;
+    margin:0px auto;
+    border-top: 1px solid #d9bfb7;
+    margin-top: 8px;
+    text-align:left;
+    font-size:11px;
+}
