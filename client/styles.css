@@ -43,7 +43,7 @@ hr{
     display: table;
     padding: 2px;
     margin: 4px 0;
-    overflow: hidden;           /*unclear if we need this*/
+    overflow: hidden;           /*unclear if we need this */
 }
 
 .replyFirstPost{
