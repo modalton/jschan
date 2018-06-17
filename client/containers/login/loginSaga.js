@@ -1,6 +1,7 @@
 import { call, put, takeEvery, takeLatest } from "redux-saga/effects";
 
 function attemptLoginRequest(payload) {
+  console.log("muh payload", payload);
   return new Promise((resolve, reject) => {
     window
       .fetch("/mods/auth", {

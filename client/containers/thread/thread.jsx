@@ -5,15 +5,29 @@ import Post from "../../components/post.jsx";
 import ThreadPost from "../../components/threadPost.jsx";
 import CreateBoard from "../create/create.jsx";
 
+//The hover functionality is contained here. It seems like it could be a seperate class.
+//Due to some conditions around thread state it seemed a little more tightly coupled
+// to the thread class than the first glance. If it becomes too verbose you can revist this
+
 const mapStateToProps = store => {
-  return { posts: store.threadReducer.posts };
+  return {
+    posts: store.threadReducer.posts,
+    hoverObj: store.threadReducer.hoverObj
+  };
 };
 
 const mapDispatchToProps = dispatch => ({
   fetchPosts: thread_id =>
     dispatch({ type: "THREAD_FETCH_REQUESTED", payload: thread_id }),
   reportPost: (post_id, reason) =>
-    dispatch({ type: "REPORT_POST_REQUESTED", payload: { post_id, reason } })
+    dispatch({ type: "REPORT_POST_REQUESTED", payload: { post_id, reason } }),
+  toggleHovering: event => {
+    console.log(event.clientX, event.clientY);
+    dispatch({
+      type: "TOGGLE_HOVERING",
+      payload: { coordinate: { x: event.clientX, y: event.clientY } }
+    });
+  }
 });
 
 class Thread extends Component {
@@ -31,27 +45,25 @@ class Thread extends Component {
     return (
       <div>
         <h2>Thread</h2>
-        {this.props.posts.map((post, i) => {
+        {this.props.hoverObj.hovering && <div>Hover Div</div>}
+        {this.props.posts.map((post, i, arr) => {
           if (i === 0) {
             return (
               <ThreadPost
                 key={i}
                 is_thread={i === 0 ? true : false}
-                name={post.name}
-                post_num={post.post_id}
-                id={post.id_token}
+                {...post}
                 timestamp={Date.now()}
-                title={post.title}
-                body={post.body}
-                picture_url={post.picture_url}
+                mentions={arr
+                  .filter(pst => pst.body.includes(post.post_id))
+                  .map(pst => pst.post_id)}
+                toggleHovering={this.props.toggleHovering}
                 actions={[
                   {
                     name: "Report",
-                    func: this.props.reportPost.bind(
-                      this,
-                      post.post_id,
-                      "RULE_VIOLATION"
-                    )
+                    func: () => {
+                      this.props.reportPost(post.post_id, "RULE_VIOLATION");
+                    }
                   }
                 ]}
               />
@@ -61,21 +73,18 @@ class Thread extends Component {
               <Post
                 key={i}
                 is_thread={i === 0 ? true : false}
-                name={post.name}
-                post_num={post.post_id}
-                id={post.id_token}
+                {...post}
                 timestamp={Date.now()}
-                title={post.title}
-                body={post.body}
-                picture_url={post.picture_url}
+                mentions={arr
+                  .filter(pst => pst.body.includes(post.post_id))
+                  .map(pst => pst.post_id)}
+                toggleHovering={this.props.toggleHovering}
                 actions={[
                   {
                     name: "Report",
-                    func: this.props.reportPost.bind(
-                      this,
-                      post.post_id,
-                      "RULE_VIOLATION"
-                    )
+                    func: () => {
+                      this.props.reportPost(post.post_id, "RULE_VIOLATION");
+                    }
                   }
                 ]}
               />

@@ -13,6 +13,7 @@ import {
   newCommentWorker,
   newThreadWorker
 } from "./containers/create/createSaga.js";
+import reportsSaga from "./containers/reports/reportsSaga.js";
 
 export default function* allSagas() {
   yield takeLatest("CATALOG_FETCH_REQUESTED", myBoardSaga);
@@ -23,4 +24,5 @@ export default function* allSagas() {
   yield takeLatest("BANS_REQUESTED", modSaga);
   yield takeLatest("NEW_THREAD_REQUESTED", newThreadWorker);
   yield takeLatest("NEW_COMMENT_REQUESTED", newCommentWorker);
+  yield takeLatest("REPORTS_FETCH_REQUESTED", reportsSaga);
 }

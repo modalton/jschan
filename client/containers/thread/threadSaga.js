@@ -24,7 +24,7 @@ function* fetchThreadWorker(action) {
 function reportPost({ post_id, reason }) {
   return new Promise((resolve, reject) => {
     window
-      .fetch(`/report/`, {
+      .fetch(`/reports/`, {
         method: "POST",
         body: JSON.stringify({ post_id, reason }),
         headers: {

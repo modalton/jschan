@@ -2,7 +2,7 @@ import React from "react";
 
 //old action code. need to make component for drop down bc this looks terrible
 // {actions.map(action => (
-//   <diinstalling flash debianv>
+//   <div>
 //     <button onClick={action.func}>{action.name}</button>
 //   </div>
 // ))}
@@ -10,21 +10,36 @@ import React from "react";
 const Post = ({
   is_thread,
   name,
-  id,
+  id_token,
   timestamp,
-  post_num,
+  post_id,
   title,
   body,
   picture_url,
-  actions
+  actions,
+  toggleHovering,
+  mentions
 }) => (
   <div className="post-container">
-    <div class="side-arrows"> >> </div>
-    <div id={post_num} className="reply">
+    <div className="side-arrows"> >> </div>
+    <div id={post_id} className="reply">
       <div className="postHeader">
         <input type="checkbox" />
-        <span className="name">{name ? name : "Anonymous"}</span> ID:({id}){" "}
-        {new Date(timestamp).toDateString()} No.{post_num}
+        <span className="name">{name ? name : "Anonymous"}</span> ID:({id_token}){" "}
+        {new Date(timestamp).toDateString()} No.{post_id}
+        {mentions.map((mention, i) => (
+          <a
+            key={i}
+            onMouseOver={e => {
+              toggleHovering(e);
+            }}
+            href={`#${mention}`}
+            className="quotelink"
+          >
+            {" "}
+            >>{mention}
+          </a>
+        ))}
       </div>
       <div>
         File:<a href={`/${picture_url}`}>{picture_url}</a> (777 KB, 1100 x 720)

@@ -1,9 +1,9 @@
-function LoginReducer(state = {isLoggedIn:false}, action){
+function LoginReducer(state = { isLoggedIn: false }, action) {
   switch (action.type) {
-  case 'LOGIN_SUCCEEDED':
-    return Object.assign({},state,{isLoggedIn:true});
-  default:
-    return state;
+    case "LOGIN_SUCCEEDED":
+      return { ...state, isLoggedIn: true };
+    default:
+      return state;
   }
 }
 

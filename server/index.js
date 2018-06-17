@@ -72,7 +72,8 @@ app.post(
   threadController.createThread
 );
 
-app.post("/report", reportController.createReport);
+app.get("/reports", reportController.getReports);
+app.post("/reports", reportController.createReport);
 
 app.post(
   "/mods/create",
