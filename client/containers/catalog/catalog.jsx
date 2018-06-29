@@ -9,8 +9,7 @@ const mapStateToProps = store => {
   return {
     catalog: store.catalogReducer.catalog,
     board: store.homeReducer.boards.find(
-      board =>
-        board.acronym === store.router.location.pathname.replace("/board/", "")
+      board => board.acronym === store.router.location.pathname.replace("/", "")
     ) || {
       acronym: "",
       title: ""
@@ -29,7 +28,7 @@ class Catalog extends Component {
   }
 
   componentDidMount() {
-    this.props.fetchCatalogThreads(this.props.board.acronym);
+    this.props.fetchCatalogThreads(this.props.match.params.board_id);
   }
 
   render() {

@@ -3,14 +3,14 @@ import { connect } from "react-redux";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import BoardsBar from "../../components/boardsBar.jsx";
 import Catalog from "../catalog/catalog.jsx";
+import Thread from "../thread/thread.jsx";
 
 const mapStateToProps = store => {
   //Due to issue related https://github.com/ReactTraining/react-router/issues/5420 we can't use match.params.board_id
   //so we just manually take off the 'board/'. Hacky but there is no good solution
   return {
     board: store.homeReducer.boards.find(
-      board =>
-        board.acronym === store.router.location.pathname.replace("/board/", "")
+      board => board.acronym === store.router.location.pathname.replace("/", "")
     ) || {
       acronym: "",
       title: ""
@@ -28,7 +28,9 @@ class Page extends Component {
   constructor(props) {
     super(props);
   }
-
+  componentDidMount() {
+    console.log(this.props.match);
+  }
   render() {
     return (
       <div>
@@ -49,7 +51,7 @@ class Page extends Component {
           </div>
           <hr />
         </div>
-        <Catalog />
+        <Route path="/:board_id/catalog" component={Catalog} />
       </div>
     );
   }

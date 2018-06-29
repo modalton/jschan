@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import Post from "../../components/post.jsx";
 import ThreadPost from "../../components/threadPost.jsx";
-import CreateBoard from "../create/create.jsx";
+import Create from "../create/create.jsx";
 
 //The hover functionality is contained here. It seems like it could be a seperate class.
 //Due to some conditions around thread state it seemed a little more tightly coupled
@@ -16,16 +16,18 @@ const mapStateToProps = store => {
   };
 };
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch, ownProps) => ({
   fetchPosts: thread_id =>
     dispatch({ type: "THREAD_FETCH_REQUESTED", payload: thread_id }),
   reportPost: (post_id, reason) =>
     dispatch({ type: "REPORT_POST_REQUESTED", payload: { post_id, reason } }),
-  toggleHovering: event => {
-    console.log(event.clientX, event.clientY);
+  toggleHovering: (event, post_id) => {
     dispatch({
       type: "TOGGLE_HOVERING",
-      payload: { coordinate: { x: event.clientX, y: event.clientY } }
+      payload: {
+        coordinates: { x: event.clientX, y: event.clientY },
+        post_id
+      }
     });
   }
 });
@@ -40,18 +42,27 @@ class Thread extends Component {
     this.props.fetchPosts(this.props.match.params.thread_id);
   }
 
-  //Look into destructuring/spreading post into input params
   render() {
     return (
       <div>
         <h2>Thread</h2>
-        {this.props.hoverObj.hovering && <div>Hover Div</div>}
+        {this.props.hoverObj.hovering && (
+          <div
+            style={{
+              position: "fixed",
+              width: "400px",
+              left: this.props.hoverObj.coordinates.x + 10,
+              top: this.props.hoverObj.coordinates.y
+            }}
+          >
+            <Post {...this.props.hoverObj.post} />
+          </div>
+        )}
         {this.props.posts.map((post, i, arr) => {
           if (i === 0) {
             return (
               <ThreadPost
                 key={i}
-                is_thread={i === 0 ? true : false}
                 {...post}
                 timestamp={Date.now()}
                 mentions={arr
@@ -72,7 +83,6 @@ class Thread extends Component {
             return (
               <Post
                 key={i}
-                is_thread={i === 0 ? true : false}
                 {...post}
                 timestamp={Date.now()}
                 mentions={arr
@@ -91,10 +101,7 @@ class Thread extends Component {
             );
           }
         })}
-        <CreateBoard
-          type="thread"
-          context={this.props.match.params.thread_id}
-        />
+        <Create type="thread" context={this.props.match.params.thread_id} />
       </div>
     );
   }

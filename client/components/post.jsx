@@ -1,5 +1,21 @@
 import React from "react";
 
+//Seems to be babel bug for following argument code (which works in repl)
+// to be investigated another day
+// { ...args } = {},
+//   {
+//     name,
+//     id_token,
+//     timestamp,
+//     post_id,
+//     title,
+//     body,
+//     picture_url,
+//     actions,
+//     toggleHovering,
+//     mentions
+//   } =  args
+
 //old action code. need to make component for drop down bc this looks terrible
 // {actions.map(action => (
 //   <div>
@@ -8,7 +24,6 @@ import React from "react";
 // ))}
 
 const Post = ({
-  is_thread,
   name,
   id_token,
   timestamp,
@@ -31,7 +46,7 @@ const Post = ({
           <a
             key={i}
             onMouseOver={e => {
-              toggleHovering(e);
+              toggleHovering(e, mention);
             }}
             href={`#${mention}`}
             className="quotelink"

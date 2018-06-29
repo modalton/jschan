@@ -74,7 +74,7 @@ class Home extends Component {
           <div className="boxcontent">
             <h3 style={{ textDecoration: "underline" }}>Current Ones</h3>
             {this.props.boards.map((board, i) => (
-              <Link key={i} to={`/board/${board.acronym}`}>
+              <Link key={i} to={`/${board.acronym}/catalog`}>
                 {board.title}
                 <br />
               </Link>

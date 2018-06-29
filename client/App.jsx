@@ -61,7 +61,7 @@ const App = () => (
     <ConnectedRouter history={history}>
       <div>
         <Route exact path="/" component={Home} />
-        <Route path="/board/:board_id" component={Page} />
+        <Route path="/:board_id" component={Page} />
         <Route path="/thread/:thread_id" component={Thread} />
         <Route path="/login" component={LoginPage} />
         <PrivateRoute path="/bans" component={BanPage} />
