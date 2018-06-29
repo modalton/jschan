@@ -1,11 +1,10 @@
-
-function homeReducer(state = {boards:[]}, action){
+function homeReducer(state = { boards: [] }, action) {
   switch (action.type) {
-  case 'BOARD_FETCH_SUCCEEDED':
-    let boards = action.payload
-    return Object.assign(state,{boards});
-  default:
-    return state;
+    case "BOARD_FETCH_SUCCEEDED":
+      let boards = action.payload;
+      return { ...state, boards };
+    default:
+      return state;
   }
 }
 

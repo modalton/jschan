@@ -1,11 +1,11 @@
-var webpack = require("webpack");
-var path = require("path");
+const webpack = require("webpack");
+const path = require("path");
 
-var BUILD_DIR = path.resolve(__dirname, "./build");
-var APP_DIR = path.resolve(__dirname, "./client");
+const BUILD_DIR = path.resolve(__dirname, "./build");
+const APP_DIR = path.resolve(__dirname, "./client");
 
 const config = {
-  entry: ['babel-polyfill', APP_DIR+'\\index.js'],
+  entry: ["babel-polyfill", APP_DIR + "/index.js"],
   output: {
     filename: "bundle.js",
     path: BUILD_DIR
@@ -13,7 +13,7 @@ const config = {
   module: {
     rules: [
       {
-        test: /(\.css|.scss)$/,
+        test: /(\.css)$/,
         use: [
           {
             loader: "style-loader" // creates style nodes from JS strings
@@ -30,10 +30,14 @@ const config = {
             loader: "babel-loader",
             options: {
               cacheDirectory: true,
-              presets: ["react", "es2015"] // Transpiles JSX and ES6
+              presets: ["react", "es2015", "stage-1"] // Transpiles JSX and ES6
             }
           }
         ]
+      },
+      {
+        test: /\.(woff|woff2|eot|ttf|otf)$/,
+        loader: "file-loader"
       }
     ]
   }

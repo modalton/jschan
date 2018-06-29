@@ -1,0 +1,22 @@
+ToDo Backend:
+Banning controller
+Banning middleware for threads
+Delete routes && mod dashboard
+User input validation needs a rework
+Make sure thread_post_id exists in comments::createcomment sql
+Similar sql error to above in reports::createReport sql
+Restrict file type upload
+Redirect unknowns to frontend
+Tests
+Don't respond w/sql response to client
+Binding to sigint in dbconfig seems to stall exiting so have to call it manually. Might have been a windows thing. check
+
+
+ToDo frontend:
+Report interface
+need to fix and update to most recent webpack version
+Add prop types
+Protected routes
+Find someone intrested in front end to flush this out & do tests?
+
+
